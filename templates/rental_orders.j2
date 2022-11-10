@@ -1,0 +1,128 @@
+<html>
+<head>
+	<title>Rental_Orders</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'update') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'delete') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'block';
+		} else if(dowhat == 'all') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		}
+	}
+
+	function newRentalOrder() {
+		showform('insert');
+	}
+
+	function updateRentalOrder(pid) {
+		showform('update');
+	}
+
+	function deleteRentalOrder(pid) {
+		showform('delete');
+	}
+
+	function browseRentalOrders() {
+		showform('browse');
+	}
+
+	function showAll() {
+		showform('all');
+	}
+	</script>
+</head>
+
+<body onload="browseRentalOrders()">
+	<h1>Rental_Orders</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> | Memberships | Rental Equipment | Employees | Orders ]
+	<div id="browse">
+		<p><a href="#" onClick="newRentalOrder()">Add New</a> </p>
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+					    
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+						    <td><a href="edit_rentalorder/{{item.id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_rentalorder/{{item.id}}" class="btn btn-default">Delete</a></td>
+
+					    </tr> 
+                        {% endfor %} 
+                {% endif %} 
+        </table>   
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+	<div id="insert">
+		<!-- form to INSERT new data into rental_orders-->
+		<form id="insertRentalOrder" action="/Rental_Orders" method="post">
+			<legend><strong>Add Rental Order</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="make">Order_id</label>
+				<select class="form-control" id="order_id" name="order_id" pattern="[0-4]{1}" style="font-family:verdana" placeholder="" required>
+                    {% for x in orders %}
+                    	<option value={{x.order_id}}>{{x.order_id}}</option>
+                    {% endfor %}
+				</select>
+
+				<label for="color">Rental_id</label>
+				<select class="form-control" id="rental_id" name="rental_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
+                    {% for x in rentals %}
+                    	<option value={{x.rental_id}}>{{x.rental_name}}</option>
+                    {% endfor %}
+				</select>
+            </fieldset>
+
+            <!-- Create 'Add Rental_Order' and 'Cancel' buttons -->
+			<input type="submit" value="Add Rental_Order" name="Add_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()"> 
+        </form>
+	</div><!--insert-->
+</body>
+</html>
