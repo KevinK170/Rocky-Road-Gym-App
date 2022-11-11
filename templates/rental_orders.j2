@@ -35,23 +35,18 @@
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
-
 	function newRentalOrder() {
 		showform('insert');
 	}
-
 	function updateRentalOrder(pid) {
 		showform('update');
 	}
-
 	function deleteRentalOrder(pid) {
 		showform('delete');
 	}
-
 	function browseRentalOrders() {
 		showform('browse');
 	}
-
 	function showAll() {
 		showform('all');
 	}
@@ -88,8 +83,8 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_rentalorder/{{item.id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_rentalorder/{{item.id}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="edit_rentalorder/{{item.rentalorder_id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_rentalorder/{{item.rentalorder_id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -124,64 +119,19 @@
 			<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()"> 
         </form>
 	</div><!--insert-->
-	
-	
-	
-	<p>&nbsp;</p>
-	<div id = "update">
-		<table border="1" cellpadding="5"> 
-            <caption> Editing Rental Order: </caption>
-            <!-- Access data tuple passed from app.py -->
-            {% if data %}
-                <thead>
-                    <tr>
-                        <!-- Iterate through each key in the first entry to get the column name -->
-                        {% for key in data[0].keys() %}
-
-                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
-                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
-                        
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </tr>
-
-                <tbody>
-                    <!-- Now, iterate through every item in data -->
-                    {% for item in data %}
-                    <tr>
-                        <!-- Then iterate through every key in the current item dictionary -->
-                        {% for key in item.keys() %}
-                        
-                        <!-- Create a <td> element with the value of that key in it -->
-                        <td>{{item[key]}}</td> {% endfor %} 
-                    </tr> 
-                    {% endfor %} 
-            {% endif %} 
-        </table>
-
-        <div>
-            <!-- form to edit data in rental_orders-->
-            <form id="editRentalOrder" action="/edit_rentalorder/{{data[0].id}}" method="post">
-                <legend><strong>Edit Rental Order</strong></legend>
-                <fieldset>
-                    <!-- We can preset form inputs to match attributes currently stored for 'id' of rental order to be updated via value= and accessing our passed data tuple -->
-                    <!-- Create hidden form input to store the passed 'id' of the rental order we are editing so we can access it easily in our 'POST' method in our app.py -->
-                    <input type="hidden" value="{{data[0].id}}" class="form-control" id="rentalorder_id" name="rentalorder_id" pattern="[0-4]{1}" required>
-                    <label for="make">Rental Order ID:</label>
-
-                    <input type="text" value="{{data[0].order_id}}" class="form-control" id="order_id" name="Order ID" pattern="[0-4]{1}" required>
-                    <label for="model">Order ID:</label>
-
-                    <input type="text" value="{{data[0].rental_id}}" class="form-control" id="rental_id" name="Rental ID" pattern="[0-4]{1}" required>
-                    <label for="year">Rental ID:</label>
-                </fieldset>
-                <input type="submit" value="Edit Rental Order" name="Edit Rental Order" class="btn btn-primary" style="margin:.5rem;">
-                <a href='/people'><input class="btn" type="button" value="cancel"></a>
-            </form>
-	</div>    
-
-
-	
+	<div id="editRentalOrder">
+		<form id="editRentalOrder" action="/edit_rentalorder/{{data[0].rentalorder_id}}" method="post">
+			<legend><strong>Edit Rental Order</strong></legend>
+			<fieldset>
+				<input type="hidden" value="{{data[0].id}}" class="form-control" id="rentalorder_id" name="rentalorder_id" required>
+				<label for="make">Order id:</label>
+				<input type="text" class="form-control" id="order_id" name="order_id" pattern="[A-Za-z]{1,}" placeholder="{{data[0].order_id}}" required>
+				
+				<label for="model">Rental id:</label>
+				<input type="text" class="form-control" id="rental_id" name="rental_id" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].rental_id}}" required>
+				<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()" style="margin:.5rem;"> 
+        </form>
+	</div><!--edit-->
 	
 </body>
 </html>
