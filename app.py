@@ -117,21 +117,32 @@ def edit_rental_order(id):
 
         # render edit_rental_order page passing our query data to the edit_rental_order
         return render_template("edit_rentalorders.j2", data=data, orders = order_data, rentals = rental_data)
-
+    print(request.method)
     # meat and potatoes of our update functionality
     if request.method == "POST":
         # fire off if user clicks the 'Edit Rental Order' button
+        print(request.form)
         if request.form.get("Edit_Rental_Order"):
             # grab user form inputs
-            id = request.form["rentalorder_id"]
-            orderID = request.form["order_id"]
-            rentalID = request.form["rental_id"]
-            
-            query = "UPDATE Rental_Orders SET rental_id = '%s', order_id = '%s' WHERE rentalorder_id = '%s';"
+            rentalorder_id = request.form["rentalorder_id"]
+            order_id = request.form["order_id"]
+            rental_id = request.form["rental_id"]
+
+            query = "SET FOREIGN_KEY_CHECKS=0;"
             cur = mysql.connection.cursor()
-            cur.execute(query, (orderID, rentalID, id))
+            cur.execute(query)
+            cur.close()
+
+            query = "UPDATE Rental_Orders SET order_id = %s, rental_id = %s WHERE rentalorder_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (order_id, rental_id, rentalorder_id))
             mysql.connection.commit()
-            
+
+            query = "SET FOREIGN_KEY_CHECKS=1;"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            cur.close()
+
             # redirect back to people page after we execute the update query
             return redirect("/Rental_Orders")
 
