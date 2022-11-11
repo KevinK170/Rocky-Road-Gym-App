@@ -86,7 +86,7 @@ def delete_people(id):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Rental_Orders WHERE rentalorder_id = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id))
+    cur.execute(query, (id,))
     mysql.connection.commit()
     # redirect back to people page
     return redirect("/Rental_Orders")
@@ -98,7 +98,7 @@ def delete_people(id):
 def edit_rental_order(id):
     if request.method == "GET":
         # mySQL query to grab the info of the rental order with our passed id
-        query = "SELECT * FROM rental_orders WHERE rentalorder_id = '%s'" % (id)
+        query = "SELECT * FROM Rental_Orders WHERE rentalorder_id = '%s'" % (id)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -135,11 +135,7 @@ def edit_rental_order(id):
             # redirect back to people page after we execute the update query
             return redirect("/Rental_Orders")
 
-
-
-
-
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=6534, debug=True)
+    app.run(port=6535, debug=True)
