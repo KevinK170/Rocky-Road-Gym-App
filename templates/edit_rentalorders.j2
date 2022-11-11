@@ -43,7 +43,7 @@
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
                     
-                    <input type="hidden" value="{{data[0].rentalorder_id}}" class="form-control" id="rentalorder_id" name="personID" required>
+                    <input type="hidden" value="{{data[0].rentalorder_id}}" class="form-control" id="rentalorder_id" name="rentalorder_id" required>
 
                     <select class="form-control" id="order_id" name="order_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
                         {% for x in orders %}
@@ -59,7 +59,7 @@
                 
                 
                 </fieldset>
-                <input type="submit" value="edit" name="Edit_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
+                <input type="submit" value="Edit Rental_Order" name="Edit_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/Rental_Orders'><input class="btn" type="button" value="cancel"></a>
             </form>
 </body>
