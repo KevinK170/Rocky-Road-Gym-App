@@ -1,3 +1,4 @@
+
 <html>
 <head>
 	<title>Edit Rental Order</title>
@@ -5,7 +6,6 @@
 </head>
 <body>
     <div>
-        <h1>Rental_Orders</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> | Memberships | Rental Equipment | Employees | Orders ]
         <table border="1" cellpadding="5"> 
             <caption> Editing Rental Order: </caption>
             <!-- Access data tuple passed from app.py -->
@@ -38,26 +38,25 @@
 
         <div id="edit">
             <!-- form to edit data in bsg_people-->
-            <form id="edit_rentalorder/" action="/edit_rentalorder/{{data[0].id}}" method="post">
+            <form id="edit_rentalorder/" action="/edit_rentalorder/{{data[0].rentalorder_id}}" method="post">
                 <legend><strong>Edit Rental Order</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
                     
                     <input type="hidden" value="{{data[0].rentalorder_id}}" class="form-control" id="rentalorder_id" name="personID" required>
-                    <label for="make">rental order id:</label>
 
-                    <select class="form-control" id="rentalorder_id" name="Rental Order Id" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                        {% for x in data %}
-                            <option value={{x.order_id}}>{{x.order_id}}</option>
+                    <select class="form-control" id="order_id" name="Order Id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for data in data %}
+                            <option value={{data.order_id}}</option>
                         {% endfor %}
                     </select>
-                    
-                    <input type="text" value="{{data[0].order_id}}" class="form-control" id="order_id" name="Order ID" pattern="[A-Za-z]{1,}" required>
-                    <label for="model">order id:</label>
 
-                    <input type="text" value="{{data[0].rental_id}}" class="form-control" id="rental_id" name="Rental ID" pattern="[A-Za-z0-9]{1,}" required>
-                    <label for="year">rental id:</label>
+                    <select class="form-control" id="rental_id" name="Rental Id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for data in data %}
+                            <option value={{data.rental_id}}</option>
+                        {% endfor %}
+                    </select>
                 
                 
                 </fieldset>
@@ -66,3 +65,4 @@
             </form>
 
 </html>
+
