@@ -82,7 +82,7 @@ def rental_order():
 # # route for delete functionality, deleting a rental order,
 # # we want to pass the 'id' value of that order on button click (see HTML) via the route
 @app.route("/delete_rentalorder/<int:id>")
-def delete_people(id):
+def delete_rental_order(id):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Rental_Orders WHERE rentalorder_id = '%s';"
     cur = mysql.connection.cursor()
@@ -103,20 +103,20 @@ def edit_rental_order(id):
         cur.execute(query)
         data = cur.fetchall()
         
-         # mySQL query to grab order id data for our dropdown
+        #  # mySQL query to grab order id data for our dropdown
         query1 = "SELECT order_id FROM Orders ORDER BY order_id ASC;"
         cur = mysql.connection.cursor()
         cur.execute(query1)
         order_data = cur.fetchall()
 
-        # mySQL query to grab rental id/name data for our dropdown
+        # # mySQL query to grab rental id/name data for our dropdown
         query2 = "SELECT rental_id, rental_name FROM Rental_Equipment;"
         cur = mysql.connection.cursor()
         cur.execute(query2)
         rental_data = cur.fetchall()        
 
         # render edit_rental_order page passing our query data to the edit_rental_order
-        return render_template("rental_orders.j2", data=data, orders = order_data, rentals=rental_data)
+        return render_template("edit_rentalorders.j2", data=data, orders = order_data, rentals = rental_data)
 
     # meat and potatoes of our update functionality
     if request.method == "POST":
@@ -138,4 +138,4 @@ def edit_rental_order(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=6535, debug=True)
+    app.run(port=6536, debug=True)
