@@ -100,7 +100,7 @@
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="make">Order_id</label>
-				<select class="form-control" id="order_id" name="order_id" pattern="[0-4]{1}" style="font-family:verdana" placeholder="" required>
+				<select class="form-control" id="order_id" name="order_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
                     {% for x in orders %}
                     	<option value={{x.order_id}}>{{x.order_id}}</option>
                     {% endfor %}
@@ -119,19 +119,6 @@
 			<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()"> 
         </form>
 	</div><!--insert-->
-	<div id="editRentalOrder">
-		<form id="editRentalOrder" action="/edit_rentalorder/{{data[0].rentalorder_id}}" method="post">
-			<legend><strong>Edit Rental Order</strong></legend>
-			<fieldset>
-				<input type="hidden" value="{{data[0].id}}" class="form-control" id="rentalorder_id" name="rentalorder_id" required>
-				<label for="make">Order id:</label>
-				<input type="text" class="form-control" id="order_id" name="order_id" pattern="[A-Za-z]{1,}" placeholder="{{data[0].order_id}}" required>
-				
-				<label for="model">Rental id:</label>
-				<input type="text" class="form-control" id="rental_id" name="rental_id" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].rental_id}}" required>
-				<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()" style="margin:.5rem;"> 
-        </form>
-	</div><!--edit-->
-	
+
 </body>
 </html>
