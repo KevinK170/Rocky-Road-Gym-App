@@ -102,9 +102,21 @@ def edit_rental_order(id):
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
+        
+         # mySQL query to grab order id data for our dropdown
+        query1 = "SELECT order_id FROM Orders ORDER BY order_id ASC;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        order_data = cur.fetchall()
+
+        # mySQL query to grab rental id/name data for our dropdown
+        query2 = "SELECT rental_id, rental_name FROM Rental_Equipment;"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        rental_data = cur.fetchall()        
 
         # render edit_rental_order page passing our query data to the edit_rental_order
-        return render_template("rental_orders.j2", data=data)
+        return render_template("rental_orders.j2", data=data, orders = order_data, rentals=rental_data)
 
     # meat and potatoes of our update functionality
     if request.method == "POST":
@@ -114,12 +126,12 @@ def edit_rental_order(id):
             id = request.form["rentalorder_id"]
             orderID = request.form["order_id"]
             rentalID = request.form["rental_id"]
-            query = "UPDATE Rental_Orders SET rental_id = '%s';"
-            query = "UPDATE Rental_Orders SET order_id = '%s';"
+            
+            query = "UPDATE Rental_Orders SET rental_id = '%s', order_id = '%s' WHERE rentalorder_id = '%s';"
             cur = mysql.connection.cursor()
             cur.execute(query, (orderID, rentalID, id))
             mysql.connection.commit()
-
+            
             # redirect back to people page after we execute the update query
             return redirect("/Rental_Orders")
 
