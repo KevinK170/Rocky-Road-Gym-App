@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<title>Edit Rental Order</title>
@@ -46,23 +45,22 @@
                     
                     <input type="hidden" value="{{data[0].rentalorder_id}}" class="form-control" id="rentalorder_id" name="personID" required>
 
-                    <select class="form-control" id="order_id" name="Order Id" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                        {% for data in data %}
-                            <option value={{data.order_id}}</option>
+                    <select class="form-control" id="order_id" name="order_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for x in orders %}
+                    	    <option value={{x.order_id}}>{{x.order_id}}</option>
                         {% endfor %}
                     </select>
 
-                    <select class="form-control" id="rental_id" name="Rental Id" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                        {% for data in data %}
-                            <option value={{data.rental_id}}</option>
+                    <select class="form-control" id="rental_id" name="rental_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for x in rentals %}
+                    	    <option value={{x.rental_id}}>{{x.rental_name}}</option>
                         {% endfor %}
                     </select>
                 
                 
                 </fieldset>
-                <input type="submit" value="edit" name="Edit Rental Order" class="btn btn-primary" style="margin:.5rem;">
+                <input type="submit" value="edit" name="Edit_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/Rental_Orders'><input class="btn" type="button" value="cancel"></a>
             </form>
-
+</body>
 </html>
-
