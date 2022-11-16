@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Rental_Orders</title>
+	<title>Orders</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -35,16 +35,16 @@
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
-	function newRentalOrder() {
+	function newOrder() {
 		showform('insert');
 	}
-	function updateRentalOrder(pid) {
+	function updateOrder(pid) {
 		showform('update');
 	}
-	function deleteRentalOrder(pid) {
+	function deleteOrder(pid) {
 		showform('delete');
 	}
-	function browseRentalOrders() {
+	function browseOrders() {
 		showform('browse');
 	}
 	function showAll() {
@@ -53,10 +53,10 @@
 	</script>
 </head>
 
-<body onload="browseRentalOrders()">
-	<h1>Rental_Orders</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> | Memberships | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
+<body onload="browseOrders()">
+	<h1>Orders</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> | Memberships | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
 	<div id="browse">
-		<p><a href="#" onClick="newRentalOrder()">Add New</a> </p>
+		<p><a href="#" onClick="newOrder()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -83,8 +83,9 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_rentalorder/{{item.rentalorder_id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_rentalorder/{{item.rentalorder_id}}" class="btn btn-default">Delete</a></td>
+							<td><a href="view_order/{{item.order_id}}" class="btn btn-default">View</a></td>
+						    <td><a href="edit_order/{{item.order_id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_order/{{item.order_id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -94,29 +95,37 @@
 	</div>	<!-- browse -->
 
 	<div id="insert">
-		<!-- form to INSERT new data into rental_orders-->
-		<form id="insertRentalOrder" action="/Rental_Orders" method="post">
-			<legend><strong>Add Rental Order</strong></legend>
+		<!-- form to INSERT new data into orders-->
+		<form id="insertOrder" action="/Orders" method="post">
+			<legend><strong>Add Order</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="make">Order_id</label>
-				<select class="form-control" id="order_id" name="order_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                    {% for x in orders %}
-                    	<option value={{x.order_id}}>{{x.order_id}}</option>
+				<label for="make">Member:</label>
+				<select class="form-control" id="member_id" name="member_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                    {% for x in members %}
+                    	<option value={{x.member_id}}>{{x.member_name}}</option>
                     {% endfor %}
 				</select>
 
-				<label for="color">Rental_id</label>
-				<select class="form-control" id="rental_id" name="rental_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
-                    {% for x in rentals %}
-                    	<option value={{x.rental_id}}>{{x.rental_name}}</option>
+				<label for="color">Membership:</label>
+				<select class="form-control" id="membership_id" name="membership_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
+					<option value="0">&nbsp;</option>
+                    {% for x in memberships %}
+                    	<option value={{x.membership_id}}>{{x.membership_name}}</option>
                     {% endfor %}
 				</select>
+
+				<label for="make">Employee:</label>
+				<select class="form-control" id="employee_id" name="employee_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                    {% for x in employees %}
+                    	<option value={{x.employee_id}}>{{x.employee_name}}</option>
+                    {% endfor %}
+
             </fieldset>
 
-            <!-- Create 'Add Rental_Order' and 'Cancel' buttons -->
-			<input type="submit" value="Add Rental_Order" name="Add_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()"> 
+            <!-- Create 'Add Order' and 'Cancel' buttons -->
+			<input type="submit" value="Add Order" name="Add_Order" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseOrders()"> 
         </form>
 	</div><!--insert-->
 

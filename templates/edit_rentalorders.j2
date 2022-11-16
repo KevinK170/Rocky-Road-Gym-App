@@ -45,15 +45,25 @@
                     
                     <input type="hidden" value="{{data[0].rentalorder_id}}" class="form-control" id="rentalorder_id" name="rentalorder_id" required>
 
+                    <label for="make">Order ID:</label>
                     <select class="form-control" id="order_id" name="order_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
                         {% for x in orders %}
-                    	    <option value={{x.order_id}}>{{x.order_id}}</option>
+                            {% if data[0].order_id == x.order_id %}
+                    	        <option value={{x.order_id}} selected>{{x.order_id}}</option>
+                            {% else %}
+                                <option value={{x.order_id}}>{{x.order_id}}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
 
+                    <label for="make">Rental ID:</label>
                     <select class="form-control" id="rental_id" name="rental_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
                         {% for x in rentals %}
-                    	    <option value={{x.rental_id}}>{{x.rental_name}}</option>
+                            {% if data[0].rental_id == x.rental_id %}
+                    	        <option value={{x.rental_id}} selected>{{x.rental_name}}</option>
+                            {% else %}
+                                <option value={{x.rental_id}}>{{x.rental_name}}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 

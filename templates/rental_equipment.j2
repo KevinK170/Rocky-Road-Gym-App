@@ -1,50 +1,38 @@
 <html>
 <head>
-	<title>Rental_Orders</title>
+	<title>Rental Equipment</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
-		 * four DIVS: browse, insert, update, delete
+		 * three DIVS: browse, insert, delete
 		 * this function sets one visible the others not
 		 */
 		if(dowhat == 'insert') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'block';
 			document.getElementById('delete').style.display = 'none';
 		} else if(dowhat == 'delete') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
 			document.getElementById('delete').style.display = 'block';
 		} else if(dowhat == 'all') {
 			document.getElementById('browse').style.display = 'block';
 			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'block';
 			document.getElementById('delete').style.display = 'block';
 		} else { //by default display browse
 			document.getElementById('browse').style.display = 'block';
 			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
-	function newRentalOrder() {
+	function newRentalEquipment() {
 		showform('insert');
 	}
-	function updateRentalOrder(pid) {
-		showform('update');
-	}
-	function deleteRentalOrder(pid) {
+	function deleteRentalEquipment(pid) {
 		showform('delete');
 	}
-	function browseRentalOrders() {
+	function browseRentalEquipment() {
 		showform('browse');
 	}
 	function showAll() {
@@ -53,10 +41,10 @@
 	</script>
 </head>
 
-<body onload="browseRentalOrders()">
-	<h1>Rental_Orders</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> | Memberships | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
+<body onload="browseRentalEquipment()">
+	<h1>Rental Equipment</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> | Memberships | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
 	<div id="browse">
-		<p><a href="#" onClick="newRentalOrder()">Add New</a> </p>
+		<p><a href="#" onClick="newRentalEquipment()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -82,9 +70,8 @@
 						    <td> {{item[key]}} </td> 
                             {% endfor %}
 
-                            <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_rentalorder/{{item.rentalorder_id}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_rentalorder/{{item.rentalorder_id}}" class="btn btn-default">Delete</a></td>
+                            <!-- Create our delete button -->
+						    <td><a href="delete_rental_equipment/{{item.rental_id}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -94,29 +81,21 @@
 	</div>	<!-- browse -->
 
 	<div id="insert">
-		<!-- form to INSERT new data into rental_orders-->
-		<form id="insertRentalOrder" action="/Rental_Orders" method="post">
-			<legend><strong>Add Rental Order</strong></legend>
+		<!-- form to INSERT new data into rental_equipment-->
+		<form id="insertRentalEquipment" action="/Rental_Equipment" method="post">
+			<legend><strong>Add Rental Equipment</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="make">Order_id</label>
-				<select class="form-control" id="order_id" name="order_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                    {% for x in orders %}
-                    	<option value={{x.order_id}}>{{x.order_id}}</option>
-                    {% endfor %}
-				</select>
+				<label for="make">Rental Name:</label>
+				<input type="text" class="form-control" id="rental_name" name="rental_name" placeholder="" required>
 
-				<label for="color">Rental_id</label>
-				<select class="form-control" id="rental_id" name="rental_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
-                    {% for x in rentals %}
-                    	<option value={{x.rental_id}}>{{x.rental_name}}</option>
-                    {% endfor %}
-				</select>
+				<label for="make">Rental Cost:</label>
+				<input type="text" class="form-control" id="rental_cost" name="rental_cost" placeholder="" required>
             </fieldset>
 
-            <!-- Create 'Add Rental_Order' and 'Cancel' buttons -->
-			<input type="submit" value="Add Rental_Order" name="Add_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseRentalOrders()"> 
+            <!-- Create 'Add Rental' and 'Cancel' buttons -->
+			<input type="submit" value="Add Rental" name="Add_Rental_Equipment" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseRentalEquipment()"> 
         </form>
 	</div><!--insert-->
 
