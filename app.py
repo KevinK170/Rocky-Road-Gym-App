@@ -34,6 +34,7 @@ def member():
             membership_id = request.form["membership_id"]
             signed_waiver = request.form["signed_waiver"]
             is_belay_certified = request.form["is_belay_certified"]
+            
             query = "SET FOREIGN_KEY_CHECKS=0;"
             cur = mysql.connection.cursor()
             cur.execute(query)
@@ -68,7 +69,7 @@ def member():
         cur.execute(query1)
         membership_data = cur.fetchall()
 
-        # render members page passing our query data and homeworld data to the edit_people template
+        # render members page passing our query data and homeworld data to the edit members template
         return render_template("members.j2", data=data, memberships=membership_data)
         
     
@@ -119,15 +120,15 @@ def edit_member(id):
             cur.execute(query)
             cur.close()
 
-            query1 = "UPDATE Members SET member_name = %s, membership_id = %s, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
+            query = "UPDATE Members SET member_name = %s, membership_id = %s, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query1, (member_name, membership_id, signed_waiver, is_belay_certified))
+            cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified))
             mysql.connection.commit()
-            cur.close()
+            cur.close() 
 
-            query2 = "SET FOREIGN_KEY_CHECKS=1;"
+            query = "SET FOREIGN_KEY_CHECKS=1;"
             cur = mysql.connection.cursor()
-            cur.execute(query2)
+            cur.execute(query)
             cur.close()
 
             # redirect back to rental orders page after we execute the update query
@@ -214,19 +215,20 @@ def edit_rental_order(id):
         data = cur.fetchall()
         
         #  # mySQL query to grab order id data for our dropdown
-        query1 = "SELECT order_id FROM Orders ORDER BY order_id ASC;"
+        query = "SELECT order_id FROM Orders ORDER BY order_id ASC;"
         cur = mysql.connection.cursor()
-        cur.execute(query1)
+        cur.execute(query)
         order_data = cur.fetchall()
 
         # # mySQL query to grab rental id/name data for our dropdown
-        query2 = "SELECT rental_id, rental_name FROM Rental_Equipment;"
+        query = "SELECT rental_id, rental_name FROM Rental_Equipment;"
         cur = mysql.connection.cursor()
-        cur.execute(query2)
+        cur.execute(query)
         rental_data = cur.fetchall()        
 
         # render edit_rental_order page passing our query data to the edit_rental_order
         return render_template("edit_rentalorders.j2", data=data, orders = order_data, rentals = rental_data)
+    
     # meat and potatoes of our update functionality
     if request.method == "POST":
         # fire off if user clicks the 'Edit Rental Order' button
@@ -582,4 +584,4 @@ def edit_order(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=6806, debug=True)
+    app.run(port=6898, debug=True)
