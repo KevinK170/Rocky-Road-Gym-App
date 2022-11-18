@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, redirect
+from flask import Flask, render_template, url_for, json, redirect
 from flask_mysqldb import MySQL
 from flask import request
 import os
@@ -19,7 +19,119 @@ mysql = MySQL(app)
 # Routes
 @app.route("/")
 def home():
-    return redirect("/Rental_Orders")
+    return render_template("home.html")
+
+
+# route for members page
+@app.route("/Members", methods=["POST", "GET"])
+def member():
+    # Separate out the request methods, in this case this is for a POST
+    if request.method == "POST":
+        # fire off if user presses the Add rental_order button
+        if request.form.get("Add_Member"):
+            # grab user form inputs
+            member_name = request.form["member_name"]
+            membership_id = request.form["membership_id"]
+            signed_waiver = request.form["signed_waiver"]
+            is_belay_certified = request.form["is_belay_certified"]
+            query = "SET FOREIGN_KEY_CHECKS=0;"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            cur.close()
+
+            query = "INSERT INTO Members(member_name, membership_id, signed_waiver, is_belay_certified) VALUES (%s, %s, %s, %s);"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified))
+            cur.close()
+
+            query = "SET FOREIGN_KEY_CHECKS=1;"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            cur.close()
+
+            mysql.connection.commit()
+
+            # redirect back to rental orders page
+            return redirect("/Members")
+
+    # Grab Members data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the members in Members
+        query = "SELECT * FROM Members;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # mySQL query to grab membership id data 
+        query1 = "SELECT membership_id FROM Memberships ORDER BY membership_id ASC;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        membership_data = cur.fetchall()
+
+        # render members page passing our query data and homeworld data to the edit_people template
+        return render_template("members.j2", data=data, memberships=membership_data)
+        
+    
+# # route for delete functionality, deleting a member,
+# # we want to pass the 'id' value of that order on button click (see HTML) via the route
+@app.route("/delete_member/<int:id>")
+def delete_member(id):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Members WHERE member_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (id,))
+    mysql.connection.commit()
+    # redirect back to people page
+    return redirect("/Members")  
+
+# # route for edit functionality, updating the attributes of an order in orders
+# # similar to our delete route, we want to the pass the 'id' value of that order on button click (see HTML) via the route
+@app.route("/edit_member/<int:id>", methods=["POST", "GET"])
+def edit_member(id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the rental order with our passed id
+        query = "SELECT * FROM Members WHERE member_id = '%s'" % (id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        
+        # mySQL query to grab member id/name data for our dropdown
+        query1 = "SELECT membership_id FROM Memberships ORDER BY member_id ASC;"
+        cur = mysql.connection.cursor()
+        cur.execute(query1)
+        membership_data = cur.fetchall()      
+
+        # render edit__order page passing our query data to the edit_order
+        return render_template("edit_members.j2", data=data, memberships=membership_data)
+    
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Order' button
+        if request.form.get("Edit_Member"):
+            # grab user form inputs
+            member_name = request.form["member_name"]
+            membership_id = request.form["membership_id"]
+            signed_waiver = request.form["signed_waiver"]
+            is_belay_certified = request.form["is_belay_certified"]
+
+            query = "SET FOREIGN_KEY_CHECKS=0;"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            cur.close()
+
+            query1 = "UPDATE Members SET member_name = %s, membership_id = %s, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query1, (member_name, membership_id, signed_waiver, is_belay_certified))
+            mysql.connection.commit()
+            cur.close()
+
+            query2 = "SET FOREIGN_KEY_CHECKS=1;"
+            cur = mysql.connection.cursor()
+            cur.execute(query2)
+            cur.close()
+
+            # redirect back to rental orders page after we execute the update query
+            return redirect("/Members")
 
 
 # route for rental_orders page
@@ -141,6 +253,62 @@ def edit_rental_order(id):
 
             # redirect back to rental orders page after we execute the update query
             return redirect("/Rental_Orders")
+
+# route for memberships page
+@app.route("/Memberships", methods=["POST", "GET"])
+def membership():
+    # Separate out the request methods, in this case this is for a POST
+    # insert a membership into the Memberhips entity
+    if request.method == "POST":
+        # fire off if user presses the Add Membership button
+        if request.form.get("Add_Membership"):
+            # grab user form inputs
+            membership_name = request.form["membership_name"]
+            membership_cost = request.form["membership_cost"]
+            query = "SET FOREIGN_KEY_CHECKS=0;"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            cur.close()
+
+            query = "INSERT INTO Memberships (membership_name, membership_cost) VALUES (%s, %s);"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (membership_name, membership_cost))
+            cur.close()
+
+            query = "SET FOREIGN_KEY_CHECKS=1;"
+            cur = mysql.connection.cursor()
+            cur.execute(query)
+            cur.close()
+
+            mysql.connection.commit()
+
+            # redirect back to memberships page
+            return redirect("/Memberships")
+
+    # Grab Memberships data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the orders in Employees
+        query = "SELECT * FROM Memberships;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render employees page passing our query data
+        return render_template("memberships.j2", data=data)
+    
+
+# # route for delete functionality, deleting a rental order,
+# # we want to pass the 'id' value of that order on button click (see HTML) via the route
+@app.route("/delete_membership/<int:id>")
+def delete_membership(id):
+    # mySQL query to delete the membership with our passed id
+    query = "DELETE FROM Memberships WHERE membership_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (id,))
+    mysql.connection.commit()
+    # redirect back to memberships page
+    return redirect("/Memberships")
+
 
 # route for employees page
 @app.route("/Employees", methods=["POST", "GET"])
@@ -414,4 +582,4 @@ def edit_order(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=6537, debug=True)
+    app.run(port=6806, debug=True)
