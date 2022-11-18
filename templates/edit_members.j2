@@ -1,0 +1,107 @@
+<html>
+<head>
+	<title>Edit Member</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div>
+        <table border="1" cellpadding="5"> 
+            <caption> Editing Member: </caption>
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+
+        <div id="edit">
+            <!-- form to edit data in members-->
+            <form id="Edit_Member/" action="/Edit_Member/{{data[0].member_id}}" method="post">
+                <legend><strong>Edit Member</strong></legend>
+                <fieldset>
+                    <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
+                    <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
+                    
+                    <input type="hidden" value="{{data[0].member_id}}" class="form-control" id="member_id" name="member_id" required>
+
+				    <label for="make">Member Name:</label>
+				    <select class="form-control" id="member_id" name="member_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for x in members %}
+                            {% if data[0].member_id == x.member_id %}
+                    	        <input type="text" selected>{{x.member_name}}>
+                            {% else %}
+                                <input type="text"
+                            {% endif %}
+                        {% endfor %}
+				    </select>
+				
+                    <label for="color">Membership:</label>
+				    <select class="form-control" id="membership_id" name="membership_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
+                        {% if data[0].membership_id == "0" %}
+					        <option value="0" selected>&nbsp;</option>
+                        {% else %}
+                            <option value="0">&nbsp;</option>
+                        {% endif %}
+
+                        {% for x in memberships %}
+                            {% if data[0].membership_id == x.membership_id %}
+                    	        <option value={{x.membership_id}} selected>{{x.membership_name}}</option>
+                            {% else %}
+                    	        <option value={{x.membership_id}}>{{x.membership_name}}</option>
+                            {% endif %}
+                        {% endfor %}
+				    </select>
+
+                    <label for="make">signed_waiver:</label>
+				    <select class="form-control" id="signed_waiver" name="signed_waiver" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for x in members %}
+                            {% if data[0].signed_waiver== 0 %}
+                                <option value="1">Yes</option>
+                                <option value="0" selected>No</option>
+                            {% else %}
+                                <option value="1" selected>Yes</option>
+                                <option value="0">No</option>
+                            {% endif %}
+                        {% endfor %}  
+                    </select>    
+
+				    <label for="make">is_belay_certified:</label>
+				    <select class="form-control" id="is_belay_certified" name="is_belay_certified" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                        {% for x in members %}
+                        {% if data[0].is_belay_certified== 0 %}
+                            <option value="1">Yes</option>
+                            <option value="0" selected>No</option>
+                        {% else %}
+                            <option value="1" selected>Yes</option>
+                            <option value="0">No</option>
+                        {% endif %}
+                    {% endfor %}  
+                    </select>           
+                </fieldset>
+
+                <input type="submit" value="Edit Member" name="Edit_Member" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/Members'><input class="btn" type="button" value="cancel"></a>
+            </form>
+</body>
+</html>
