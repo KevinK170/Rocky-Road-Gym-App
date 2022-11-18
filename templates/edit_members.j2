@@ -37,7 +37,7 @@
 
         <div id="edit">
             <!-- form to edit data in members-->
-            <form id="Edit_Member/" action="/Edit_Member/{{data[0].member_id}}" method="post">
+            <form id="edit_member/" action="/edit_member/{{data[0].member_id}}" method="post">
                 <legend><strong>Edit Member</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
@@ -100,7 +100,7 @@
                     </select>           
                 </fieldset>
 
-                <input type="submit" value="Edit Member" name="Edit_Member" class="btn btn-primary" style="margin:.5rem;">
+                <input type="submit" value="Edit_Member" name="Edit_Member" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/Members'><input class="btn" type="button" value="cancel"></a>
             </form>
 </body>
