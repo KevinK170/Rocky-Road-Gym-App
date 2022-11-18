@@ -1,19 +1,23 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html>
+ 
 <head>
-	<title>Home</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript">
-    </head>
-    <body>
-        <h1>Home Page!</h1>
-      
-    </body> 
+    <h1>Welcome to Rocky Roady Climbing!</h1> [<a href="/">Home</a> | <a href="Members">Members</a> |
+     <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> |
+      <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | 
+      <a href="Orders">Orders</a> ]
+</head>
+ 
+<body>
+ <!-- this section can be replaced by a child document -->  
+{% block body %}
+ 
+<p></p>
+ 
+{% endblock %}
+ 
+ 
+</body>
+ 
 </html>
-        
-
-
-{% comment %} <h1>Home</h1> [ Members | <a href="Rental_Orders">Rental Orders</a> |
-Memberships | <a href="Rental_Equipment">Rental Equipment</a> |
-<a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
-<div>"WELCOME TO ROCKY ROAD CLIMBING"</div> {% endcomment %}
