@@ -46,24 +46,10 @@
                     <input type="hidden" value="{{data[0].member_id}}" class="form-control" id="member_id" name="member_id" required>
 
 				    <label for="make">Member Name:</label>
-				    <select class="form-control" id="member_id" name="member_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                        {% for x in members %}
-                            {% if data[0].member_id == x.member_id %}
-                    	        <input type="text" selected>{{x.member_name}}>
-                            {% else %}
-                                <input type="text"
-                            {% endif %}
-                        {% endfor %}
-				    </select>
-				
-                    <label for="color">Membership:</label>
-				    <select class="form-control" id="membership_id" name="membership_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
-                        {% if data[0].membership_id == "0" %}
-					        <option value="0" selected>&nbsp;</option>
-                        {% else %}
-                            <option value="0">&nbsp;</option>
-                        {% endif %}
-
+                    <input type="text" name="Name" placeholder={{data[0].member_name}} required>
+				  
+                    <label for="membership_id">Membership:</label>
+                    <select class="form-control" id="membership_id" name="membership_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
                         {% for x in memberships %}
                             {% if data[0].membership_id == x.membership_id %}
                     	        <option value={{x.membership_id}} selected>{{x.membership_name}}</option>
@@ -75,28 +61,24 @@
 
                     <label for="make">signed_waiver:</label>
 				    <select class="form-control" id="signed_waiver" name="signed_waiver" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                        {% for x in members %}
-                            {% if data[0].signed_waiver== 0 %}
+                            {% if data[0].signed_waiver == 0 %}
                                 <option value="1">Yes</option>
                                 <option value="0" selected>No</option>
                             {% else %}
                                 <option value="1" selected>Yes</option>
                                 <option value="0">No</option>
                             {% endif %}
-                        {% endfor %}  
                     </select>    
 
 				    <label for="make">is_belay_certified:</label>
 				    <select class="form-control" id="is_belay_certified" name="is_belay_certified" pattern="{1}" style="font-family:verdana" placeholder="" required>
-                        {% for x in members %}
                         {% if data[0].is_belay_certified== 0 %}
                             <option value="1">Yes</option>
                             <option value="0" selected>No</option>
                         {% else %}
                             <option value="1" selected>Yes</option>
                             <option value="0">No</option>
-                        {% endif %}
-                    {% endfor %}  
+                        {% endif %} 
                     </select>           
                 </fieldset>
 
