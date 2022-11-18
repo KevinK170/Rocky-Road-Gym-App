@@ -110,6 +110,7 @@ def edit_member(id):
         # fire off if user clicks the 'Edit Order' button
         if request.form.get("Edit_Member"):
             # grab user form inputs
+            member_id = request.form["member_id"]
             member_name = request.form["member_name"]
             membership_id = request.form["membership_id"]
             signed_waiver = request.form["signed_waiver"]
@@ -122,7 +123,7 @@ def edit_member(id):
 
             query = "UPDATE Members SET member_name = %s, membership_id = %s, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified))
+            cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified, member_id))
             mysql.connection.commit()
             cur.close() 
 
@@ -584,4 +585,4 @@ def edit_order(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=7891, debug=True)
+    app.run(port=8120, debug=True)
