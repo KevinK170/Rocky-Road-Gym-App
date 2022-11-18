@@ -96,11 +96,11 @@ def edit_member(id):
         cur.execute(query)
         data = cur.fetchall()
         
-        # mySQL query to grab member id/name data for our dropdown
-        query1 = "SELECT membership_id FROM Memberships ORDER BY member_id ASC;"
+        # mySQL query to grab membership id/name data for our dropdown
+        query2 = "SELECT membership_id, membership_name FROM Memberships ORDER BY membership_id ASC;"
         cur = mysql.connection.cursor()
-        cur.execute(query1)
-        membership_data = cur.fetchall()      
+        cur.execute(query2)
+        membership_data = cur.fetchall()    
 
         # render edit__order page passing our query data to the edit_order
         return render_template("edit_members.j2", data=data, memberships=membership_data)
@@ -584,4 +584,4 @@ def edit_order(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=6898, debug=True)
+    app.run(port=7891, debug=True)
