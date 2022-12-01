@@ -47,7 +47,7 @@
                     <input type="hidden" value="{{data[0].member_id}}" class="form-control" id="member_id" name="member_id" required>
 				  
                     <label for="make">Name:</label>
-				    <input type="text" class="form-control" id="member_name" name="member_name" placeholder={{data[0].member_name}} required>
+				    <input type="text" class="form-control" id="member_name" name="member_name" value='{{data[0].member_name}}' required>
 
                     <label for="make">Membership:</label>
                     <select class="form-control" id="membership_id" name="membership_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
