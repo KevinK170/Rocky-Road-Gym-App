@@ -58,7 +58,7 @@ def member():
     # Grab Members data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the members in Members
-        query = "SELECT * FROM Members;"
+        query = "SELECT Members.member_id, Members.member_name, Memberships.membership_name, Members.signed_waiver, Members.is_belay_certified FROM Members LEFT JOIN Memberships ON Members.membership_id = Memberships.membership_id;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -170,7 +170,7 @@ def rental_order():
     # Grab Rental_Orders data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the orders in Rental_Orders
-        query = "SELECT * FROM Rental_Orders;"
+        query = "SELECT Rental_Orders.*, Rental_Equipment.rental_name FROM Rental_Orders LEFT JOIN Rental_Equipment ON Rental_Orders.rental_id = Rental_Equipment.rental_id;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -467,7 +467,7 @@ def order():
     # Grab Orders data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the orders in Orders
-        query = "SELECT * FROM Orders;"
+        query = "SELECT Orders.order_id, Members.member_name, Memberships.membership_name, Employees.employee_name FROM Orders LEFT JOIN Memberships ON Orders.membership_id = Memberships.membership_id LEFT JOIN Members ON Orders.member_id = Members.member_id LEFT JOIN Employees ON Orders.employee_id = Employees.employee_id;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
