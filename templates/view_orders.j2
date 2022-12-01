@@ -47,7 +47,11 @@
                             {% for key in item.keys() %}
 
 						    <!-- Create a <td> element with the value of that key in it -->
-						    <td> {{item[key]}} </td> 
+								{% if item[key] == item.membership_cost %}
+						    		<td> ${{item[key]}} </td>
+								{% else %}
+									<td> {{item[key]}} </td>
+								{% endif %}
                             {% endfor %}
 					    </tr> 
                         {% endfor %} 
