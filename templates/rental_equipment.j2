@@ -69,7 +69,12 @@
                                 {% for key in item.keys() %}
     
                                 <!-- Create a <td> element with the value of that key in it -->
-                                <td> {{item[key]}} </td> 
+						        <!-- Create a <td> element with the value of that key in it -->
+								    {% if item[key] == item.rental_cost %}
+						    		    <td> ${{item[key]}} </td>
+								    {% else %}
+									    <td> {{item[key]}} </td>
+								    {% endif %}
                                 {% endfor %}
     
                                 <!-- Create our delete button -->
