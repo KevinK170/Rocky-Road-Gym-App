@@ -4,6 +4,7 @@ from flask import request
 import os
 
 # We are using the bsg_people app template from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app
+# Source: https://medium.com/@joseortizcosta/search-utility-with-flask-and-mysql-60bb8ee83dad
 # Configuration
 
 app = Flask(__name__)
@@ -58,7 +59,7 @@ def member():
     # Grab Members data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the members in Members
-        query = "SELECT Members.member_id, Members.member_name, Memberships.membership_name, Members.signed_waiver, Members.is_belay_certified FROM Members LEFT JOIN Memberships ON Members.membership_id = Memberships.membership_id;"
+        query = "SELECT * FROM Members;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -71,8 +72,23 @@ def member():
 
         # render members page passing our query data and homeworld data to the edit members template
         return render_template("members.j2", data=data, memberships=membership_data)
+       
         
-    
+# # route for delete functionality, deleting a member,
+# # we want to pass the 'id' value of that order on button click (see HTML) via the route
+@app.route("/search_members", methods=["POST"])
+def search_members():
+        member_name = request.form.get["Search_Member"]  
+        query = "SELECT * From Members;"
+        # WHERE member_name LIKE = '%s'" % (member_name)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        mysql.connection.commit()
+        data = cur.fetchall()
+        return render_template("search_members.j2",data=data, member_name=member_name)
+        
+        
+
 # # route for delete functionality, deleting a member,
 # # we want to pass the 'id' value of that order on button click (see HTML) via the route
 @app.route("/delete_member/<int:id>")
@@ -90,7 +106,7 @@ def delete_member(id):
 @app.route("/edit_member/<int:id>", methods=["POST", "GET"])
 def edit_member(id):
     if request.method == "GET":
-        # mySQL query to grab the info of the rental order with our passed id
+        # mySQL query to grab the info of the member with our passed id
         query = "SELECT * FROM Members WHERE member_id = '%s'" % (id)
         cur = mysql.connection.cursor()
         cur.execute(query)
@@ -132,7 +148,7 @@ def edit_member(id):
             cur.execute(query)
             cur.close()
 
-            # redirect back to rental orders page after we execute the update query
+            # redirect back to the members page after we execute the update query
             return redirect("/Members")
 
 
@@ -170,7 +186,7 @@ def rental_order():
     # Grab Rental_Orders data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the orders in Rental_Orders
-        query = "SELECT Rental_Orders.*, Rental_Equipment.rental_name FROM Rental_Orders LEFT JOIN Rental_Equipment ON Rental_Orders.rental_id = Rental_Equipment.rental_id;"
+        query = "SELECT * FROM Rental_Orders;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -467,7 +483,7 @@ def order():
     # Grab Orders data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the orders in Orders
-        query = "SELECT Orders.order_id, Members.member_name, Memberships.membership_name, Employees.employee_name FROM Orders LEFT JOIN Memberships ON Orders.membership_id = Memberships.membership_id LEFT JOIN Members ON Orders.member_id = Members.member_id LEFT JOIN Employees ON Orders.employee_id = Employees.employee_id;"
+        query = "SELECT * FROM Orders;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -585,4 +601,4 @@ def edit_order(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    app.run(port=8120, debug=True)
+    app.run(port=5030, debug=True)
