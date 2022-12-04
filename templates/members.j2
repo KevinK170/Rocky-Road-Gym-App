@@ -55,6 +55,13 @@
 
 <body onload="browseMembers()">
 	<h1>Members</h1> [<a href="/">Home</a> | <a href="Members">Members</a> | <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
+	<h2>Test</h2>
+	<div>
+	<form action= "{{url_for("search_members")}}" method="POST">
+		<input type="search" name="Search_Member" placeholder="Member Name..." >
+		<input type="submit" placeholder="submit">
+	</form> 
+</div>
 	<div id="browse">
 		<p><a href="#" onClick="newMember()">Add New</a> </p>
 		<table border="1" cellpadding="5">
