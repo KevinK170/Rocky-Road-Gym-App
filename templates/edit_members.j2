@@ -52,6 +52,12 @@
 
                     <label for="make">Membership:</label>
                     <select class="form-control" id="membership_id" name="membership_id" style="font-family:verdana" pattern="[0-4]{1}" placeholder="" required>
+                        {% if data[0].membership_id == "0" %}
+					        <option value="0" selected>&nbsp;</option>
+                        {% else %}
+                            <option value="0">&nbsp;</option>
+                        {% endif %}
+
                         {% for x in memberships %}
                             {% if data[0].membership_id == x.membership_id %}
                     	        <option value={{x.membership_id}} selected>{{x.membership_name}}</option>
