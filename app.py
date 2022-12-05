@@ -78,14 +78,14 @@ def member():
 # # we want to pass the 'id' value of that order on button click (see HTML) via the route
 @app.route("/search_members", methods=["POST"])
 def search_members():
-        member_name = request.form.get["Search_Member"]  
-        query = "SELECT * From Members;"
-        # WHERE member_name LIKE = '%s'" % (member_name)
+        member_name = request.form["Search_Member"]  
+        query = "SELECT * From Members WHERE member_name = %s;"
         cur = mysql.connection.cursor()
-        cur.execute(query)
+        cur.execute(query, (member_name,))
         mysql.connection.commit()
         data = cur.fetchall()
-        return render_template("search_members.j2",data=data, member_name=member_name)
+        print(data)
+        return render_template("search_members.j2",data=data)
         
         
 
