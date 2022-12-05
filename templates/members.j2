@@ -1,8 +1,6 @@
-<!-- sources: https://www.youtube.com/watch?v=VSzNYfDQp8Y -->
-
 <html>
 <head>
-	<title>Search Member</title>
+	<title>Members</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -10,11 +8,42 @@
 		 * four DIVS: browse, insert, update, delete
 		 * this function sets one visible the others not
 		 */
-		if(dowhat == 'all') {
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'update') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'delete') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'block';
+		} else if(dowhat == 'all') {
 			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'block';
 		} else { //by default display browse
 			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
 		}
+	}
+	function newMember() {
+		showform('insert');
+	}
+	function updateMember(pid) {
+		showform('update');
+	}
+	function deleteMember(pid) {
+		showform('delete');
+	}
 	function browseMembers() {
 		showform('browse');
 	}
@@ -23,40 +52,88 @@
 	}
 	</script>
 </head>
-<body>
 
 <body onload="browseMembers()">
-    <h1> Search Results: </h1>
+	<h1>Members</h1> [<a href="/">Home</a> | <a href="Members">Members</a> | <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
+	<h2>Test</h2>
+	<div>
+	<form action= "{{url_for("search_members")}}" method="POST">
+		<input type="text" class="form-control" id="Search_Member" name="Search_Member" placeholder="Search member..." required>
+		<input type="submit" placeholder="submit">
+	</form> 
+</div>
 	<div id="browse">
+		<p><a href="#" onClick="newMember()">Add New</a> </p>
 		<table border="1" cellpadding="5">
-            <!-- Access data tuple passed from app.py -->
-           {% if data %}
-                <thead>
-                    <tr>
-                        <!-- Iterate through each key in the first entry to get the column name -->
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+					    <!-- Iterate through each key in the first entry to get the column name -->
                         {% for key in data[0].keys() %}
-
+					    
                         <!-- Create a <th> tag with the key inside of it, this will be our header row -->
-                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
-                        
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
                         <!-- End of this for loop -->
                         {% endfor %} 
                     </tr>
 
-                <tbody>
-                    <!-- Now, iterate through every item in data -->
-                    {% for item in data %}
-                    <tr>
-                        <!-- Then iterate through every key in the current item dictionary -->
-                        {% for key in item.keys() %}
-                        
-                        <!-- Create a <td> element with the value of that key in it -->
-                        <td>{{item[key]}}</td> 
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+						    <td><a href="edit_member/{{item.member_id}}" class="btn btn-default">Edit</a></td>
+						    <td><a href="delete_member/{{item.member_id}}" class="btn btn-default">Delete</a></td>
+
+					    </tr> 
                         {% endfor %} 
-                    </tr> 
-                    {% endfor %} 
-            {% endif %} 
-        </table>
-       
+                {% endif %} 
+        </table>   
+	<p>&nbsp;</p>
+	</div>	<!-- browse -->
+
+    <div id="insert">
+		<!-- form to INSERT new data into members-->
+		<form id="insertMember" action="/Members" method="post">
+			<legend><strong>Add Member</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+                <label for="make">Name:</label>
+				<input type="text" class="form-control" id="member_name" name="member_name" placeholder="" required>
+
+				<label for="make">Membership_id</label>
+				<select class="form-control" id="membership_id" name="membership_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+                    {% for x in memberships %}
+                    	<option value={{x.membership_id}}>{{x.membership_id}}</option>
+                    {% endfor %}
+				</select>
+
+                <label for="make">Signed_Waiver</label>
+				<select class="form-control" id="signed_waiver" name="signed_waiver" style="font-family:verdana" placeholder="" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+				</select>
+
+				<label for="make">is_belay_certified</label>
+				<select class="form-control" id="is_belay_certified" name="is_belay_certified" style="font-family:verdana" placeholder="" required>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+				</select>
+            </fieldset>
+
+            <!-- Create 'Add Member' and 'Cancel' buttons -->
+			<input type="submit" value="Add_Member" name="Add_Member" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseMembers()"> 
+        </form>
+	</div><!--insert-->
+
 </body>
 </html>
