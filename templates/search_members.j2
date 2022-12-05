@@ -1,20 +1,35 @@
-{% comment %} sources: https://www.youtube.com/watch?v=VSzNYfDQp8Y {% endcomment %}
+<!-- sources: https://www.youtube.com/watch?v=VSzNYfDQp8Y -->
 
 <html>
 <head>
 	<title>Search Member</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
-	
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'all') {
+			document.getElementById('browse').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+		}
+	function browseMembers() {
+		showform('browse');
+	}
+	function showAll() {
+		showform('all');
+	}
+	</script>
 </head>
 <body>
 
 <body onload="browseMembers()">
+    <h1> Search Results: </h1>
 	<div id="browse">
 		<table border="1" cellpadding="5">
-            <caption> Viewing Member: </caption>
-            <!-- Access data tuple passed from app.py --> {% endcomment %}
-            <div> hello</div>
+            <!-- Access data tuple passed from app.py -->
            {% if data %}
                 <thead>
                     <tr>
@@ -36,11 +51,12 @@
                         {% for key in item.keys() %}
                         
                         <!-- Create a <td> element with the value of that key in it -->
-                        <td>{{item[key]}}</td> {% endfor %} 
+                        <td>{{item[key]}}</td> 
+                        {% endfor %} 
                     </tr> 
                     {% endfor %} 
             {% endif %} 
-        </table> {% endcomment %}
+        </table>
        
 </body>
 </html>
