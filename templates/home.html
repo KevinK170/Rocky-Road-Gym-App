@@ -1,23 +1,24 @@
-
 <!DOCTYPE html>
 <html>
- 
-<head>
-    <h1>Welcome to Rocky Roady Climbing!</h1> [<a href="/">Home</a> | <a href="Members">Members</a> |
-     <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> |
-      <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | 
-      <a href="Orders">Orders</a> ]
-</head>
- 
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 <body>
- <!-- this section can be replaced by a child document -->  
-{% block body %}
- 
-<p></p>
- 
-{% endblock %}
- 
- 
+    <div class="middle">
+        <h1>Welcome to Rocky Road Climbing!</h1>
+        <a href="/">Home</a> | <a href="Members">Members</a> |
+        <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> |
+        <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> |
+        <a href="Orders">Orders</a>
+    </div>
+    <div class="summary">
+        <p>To get started, click on one of the tabs above to view its associated table! You can freely add and delete
+            entries to these tables, as well as edit or even search through some of them!
+        </p>
+    </div>
+    <div class="middle">
+        <img src="https://media.timeout.com/images/105890973/image.jpg" alt="Rock Climbing Gym" width="600"
+            height="400">
+    </div>
 </body>
- 
+
 </html>

@@ -1,10 +1,11 @@
+<! -- We are using the people template file from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app as a reference -->
 <html>
 <head>
 	<title>Edit Rental Order</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div>
+    <div class="middle">
         <table border="1" cellpadding="5"> 
             <caption> Editing Rental Order: </caption>
             <!-- Access data tuple passed from app.py -->
@@ -72,5 +73,7 @@
                 <input type="submit" value="Edit Rental_Order" name="Edit_Rental_Order" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/Rental_Orders'><input class="btn" type="button" value="cancel"></a>
             </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,7 +1,8 @@
+<! -- We are using the people template file from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app as a reference -->
 <html>
 <head>
 	<title>Expanded Order</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -23,9 +24,9 @@
 </head>
 
 <body onload="browseOrders()">
-	<div id="browse">
+	<h1 class="middle"> Viewing Order: </h1>
+	<div id="browse" class="middle">
 		<table border="1" cellpadding="5">
-            <caption> Viewing Order: </caption>
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
 			    <thead>
@@ -47,7 +48,7 @@
                             {% for key in item.keys() %}
 
 						    <!-- Create a <td> element with the value of that key in it -->
-								{% if item[key] == item.membership_cost %}
+								{% if item[key] == item.membership_cost and item[key] != None %}
 						    		<td> ${{item[key]}} </td>
 								{% else %}
 									<td> {{item[key]}} </td>

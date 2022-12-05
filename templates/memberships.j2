@@ -1,7 +1,8 @@
+<! -- We are using the people template file from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app as a reference -->
 <html>
 <head>
 	<title>Memberships</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -42,9 +43,12 @@
 </head>
 
 <body onload="browseMemberships()">
-	<h1>Memberships</h1> [ <a href="/">Home</a> | <a href="Members">Members</a> | <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
-	<div id="browse">
-		<p><a href="#" onClick="newMembership()">Add New</a> </p>
+	<h1 class="middle">Memberships</h1> 
+	<div class="middle">
+		[ <a href="/">Home</a> | <a href="Members">Members</a> | <a href="Rental_Orders">Rental Orders</a> | <a href="Memberships">Memberships</a> | <a href="Rental_Equipment">Rental Equipment</a> | <a href="Employees">Employees</a> | <a href="Orders">Orders</a> ]
+	</div>
+	<div id="browse" class="center">
+		<button class="button button1" onClick="newMembership()">Add New</button>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -84,7 +88,7 @@
 	<p>&nbsp;</p>
 	</div>	<!-- browse -->
 
-	<div id="insert">
+	<div id="insert" class="center">
 		<!-- form to INSERT new data into memberships-->
 		<form id="insertMembership" action="/Memberships" method="post">
 			<legend><strong>Add Membership</strong></legend>

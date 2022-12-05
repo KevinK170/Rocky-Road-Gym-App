@@ -1,9 +1,9 @@
 <!-- sources: https://www.youtube.com/watch?v=VSzNYfDQp8Y -->
-
+<! -- We are using the people template file from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app as a reference -->
 <html>
 <head>
 	<title>Search Member</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -26,8 +26,8 @@
 <body>
 
 <body onload="browseMembers()">
-    <h1> Search Results: </h1>
-	<div id="browse">
+    <h1 class="middle"> Search Results: </h1>
+	<div id="browse" class="center">
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py -->
            {% if data %}
