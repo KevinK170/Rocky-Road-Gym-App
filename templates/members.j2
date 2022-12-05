@@ -114,6 +114,7 @@
 
 				<label for="make">Membership_id</label>
 				<select class="form-control" id="membership_id" name="membership_id" pattern="{1}" style="font-family:verdana" placeholder="" required>
+					<option value="0">&nbsp;</option>
                     {% for x in memberships %}
                     	<option value={{x.membership_id}}>{{x.membership_id}}</option>
                     {% endfor %}
