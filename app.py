@@ -41,10 +41,16 @@ def member():
             cur.execute(query)
             cur.close()
 
-            query = "INSERT INTO Members(member_name, membership_id, signed_waiver, is_belay_certified) VALUES (%s, %s, %s, %s);"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified))
-            cur.close()
+            if membership_id == "0":
+                query = "INSERT INTO Members(member_name, membership_id, signed_waiver, is_belay_certified) VALUES (%s, NULL, %s, %s);"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (member_name, signed_waiver, is_belay_certified))
+                cur.close()
+            else:
+                query = "INSERT INTO Members(member_name, membership_id, signed_waiver, is_belay_certified) VALUES (%s, %s, %s, %s);"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified))
+                cur.close()
 
             query = "SET FOREIGN_KEY_CHECKS=1;"
             cur = mysql.connection.cursor()
@@ -136,11 +142,18 @@ def edit_member(id):
             cur.execute(query)
             cur.close()
 
-            query = "UPDATE Members SET member_name = %s, membership_id = %s, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified, member_id))
-            mysql.connection.commit()
-            cur.close() 
+            if membership_id == "0":
+                query = "UPDATE Members SET member_name = %s, membership_id = NULL, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (member_name, signed_waiver, is_belay_certified, member_id))
+                mysql.connection.commit()
+                cur.close()
+            else:
+                query = "UPDATE Members SET member_name = %s, membership_id = %s, signed_waiver = %s, is_belay_certified = %s WHERE member_id = %s"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (member_name, membership_id, signed_waiver, is_belay_certified, member_id))
+                mysql.connection.commit()
+                cur.close()
 
             query = "SET FOREIGN_KEY_CHECKS=1;"
             cur = mysql.connection.cursor()
