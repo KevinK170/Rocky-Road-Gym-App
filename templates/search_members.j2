@@ -1,5 +1,7 @@
-<!-- sources: https://www.youtube.com/watch?v=VSzNYfDQp8Y -->
-<! -- We are using the people template file from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app as a reference -->
+<! Citation:-- We used the people template file 
+from https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app as a reference.
+The code was primarily copied, then modified to meet the needs of our app. Resource was accessed October
+27 through December 5 2022. -->
 <html>
 <head>
 	<title>Search Member</title>
@@ -24,7 +26,6 @@
 	</script>
 </head>
 <body>
-
 <body onload="browseMembers()">
     <h1 class="middle"> Search Results: </h1>
 	<div id="browse" class="center">
@@ -35,14 +36,12 @@
                     <tr>
                         <!-- Iterate through each key in the first entry to get the column name -->
                         {% for key in data[0].keys() %}
-
                         <!-- Create a <th> tag with the key inside of it, this will be our header row -->
                         <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
                         
                         <!-- End of this for loop -->
                         {% endfor %} 
                     </tr>
-
                 <tbody>
                     <!-- Now, iterate through every item in data -->
                     {% for item in data %}
@@ -55,6 +54,8 @@
                         {% endfor %} 
                     </tr> 
                     {% endfor %} 
+            {% else %}
+                <div>Member not found.</div>
             {% endif %} 
         </table>
        
